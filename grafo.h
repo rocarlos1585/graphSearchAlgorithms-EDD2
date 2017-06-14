@@ -18,7 +18,7 @@ class grafo{
 public:
     grafo(int V);
     void agregarArista(int vertice1, int vertice2);
-    void print();
+    void print(int source, int target);
 };
 
 
@@ -28,7 +28,6 @@ grafo::grafo(int V) {
 }
 
 void grafo::agregarArista(int vertice1, int vertice2) {
-
     adyacencia[vertice1].push_back(vertice2);
 }
 
@@ -45,7 +44,7 @@ void grafo::busquedaProfundidad(int v, bool visitados[]) {
     }
 }
 
-void grafo::print() {
+void grafo::print(int source, int target) {
 
     bool *visitados = new bool[numeroVertices];
     for(int i=0; i < numeroVertices; i++){
