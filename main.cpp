@@ -4,6 +4,8 @@
 using namespace std;
 
 int main() {
+    int source;
+    int target;
 
 
     grafo G(6);
@@ -18,8 +20,12 @@ int main() {
     G.agregarArista(4,6);
     G.agregarArista(6,5);
 
-    cout<<"busqueda en profundidad: "<<endl;
-    G.print();
+    cout<<"introduce el inicio: ";
+        cin>>source;
+    cout<<"introduce el objetivo: ";
+        cin>>target;
+
+    G.print(source, target);
 
 
     return 0;

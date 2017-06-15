@@ -7,31 +7,52 @@
 
 #include <iostream>
 #include <list>
+#include "stack.h"
 
 using namespace std;
 
 class grafo{
+private:
     int numeroVertices;
-    list<int> *adyacencia;  //este apunta a un arreglo que es el que se va a encargar de mantener la lista de adyacencia
-    void busquedaProfundidad(int v, bool visitados[]);
+    int **arreglo;
+    //list<int> *adyacencia;  //este apunta a un arreglo que es el que se va a encargar de mantener la lista de adyacencia
+    //void busquedaProfundidad(int v, bool visitados[]);
 
 public:
-    grafo(int V);
+    grafo(int tamano = 2);
     void agregarArista(int vertice1, int vertice2);
     void print(int source, int target);
+    bool conexion(int, int);
 };
 
 
-grafo::grafo(int V) {
-    this -> numeroVertices = V;
-    adyacencia = new list<int>[V];
+grafo::grafo(int tamano) {
+    int a, b;
+    if(tamano<2){
+        numeroVertices=2;
+    }
+    else{
+        numeroVertices = tamano;
+    }
+
+    arreglo = new int *[numeroVertices];
+    for (a = 0; a<numeroVertices; a++){
+        arreglo[a] = new int[numeroVertices];
+    }
+
+    for(a=0; a<numeroVertices; a++){
+        for(b=0; b<numeroVertices; b++){
+            arreglo[a][b]=0;
+        }
+    }
+
 }
 
 void grafo::agregarArista(int vertice1, int vertice2) {
-    adyacencia[vertice1].push_back(vertice2);
+    arreglo[vertice1-1][vertice2-1]=arreglo[vertice2-1][vertice1-1]=1;
 }
 
-void grafo::busquedaProfundidad(int v, bool visitados[]) {
+/*void grafo::busquedaProfundidad(int v, bool visitados[]) {
 
     visitados[v]=true;
     cout<< v <<endl;    //imprime el nodo visitado actual
@@ -42,19 +63,46 @@ void grafo::busquedaProfundidad(int v, bool visitados[]) {
             busquedaProfundidad(*i, visitados);
         }
     }
+}*/
+
+bool grafo::conexion(int x, int y) {
+    return (arreglo[x-1][y-1]==1);
 }
 
 void grafo::print(int source, int target) {
 
-    bool *visitados = new bool[numeroVertices];
-    for(int i=0; i < numeroVertices; i++){
+    stack s;
+
+    bool *visitados = new bool[numeroVertices+1];
+    int i;
+
+    for(i=0; i <= numeroVertices; i++){              //si hay un error en el recorrido, revisar esta linea ya que no estoy seguro si el indexado esta bien
         visitados[i]=false;
     }
 
-    for(int j=0; j < numeroVertices; j++){
+    s.push(source);
+
+    visitados[source] = true;
+    if(source==target) return;
+    cout<<"busqueda en profundidad empieza en el vertice: "<<source<<" y termina en el vertice: "<<target<<endl;
+    while(!s.isempty()){
+        int k = s.pop();
+        if(k==target){break;}
+        cout<<k<<" ";
+        for(i=numeroVertices; i>=0; i--){        //revisar tambien este ciclo por lo del indexado
+            if(conexion(k, i) && !visitados[i]){
+                s.push(i);
+                visitados[i] = true;
+            }
+        }
+    }
+    cout<<target;
+    cout<<endl;
+    delete[]visitados;
+    /*for(int j=0; j < numeroVertices; j++){
         if(visitados[j]==false){
             busquedaProfundidad(j, visitados);
         }
-    }
+    }*/
 }
 #endif //GRAPHSEARCHALGORITHMS_EDD2_GRAFO_H

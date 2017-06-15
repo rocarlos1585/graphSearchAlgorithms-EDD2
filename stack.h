@@ -24,7 +24,7 @@ public:
     stack();
     void push(int);
     int pop();
-    bool empty();
+    bool isempty();
     void printStack();
 };
 
@@ -64,7 +64,7 @@ int stack::pop() {
     return value;
 }
 
-bool stack::empty() {
+bool stack::isempty() {
     return(top==NULL);
 }
 
