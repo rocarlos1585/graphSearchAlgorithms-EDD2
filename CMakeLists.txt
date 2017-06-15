@@ -3,5 +3,5 @@ project(graphSearchAlgorithms_EDD2)
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 
-set(SOURCE_FILES main.cpp grafo.h stack.h)
+set(SOURCE_FILES main.cpp grafo.h stack.h queue.h)
 add_executable(graphSearchAlgorithms_EDD2 ${SOURCE_FILES})

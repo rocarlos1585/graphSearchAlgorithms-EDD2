@@ -25,8 +25,9 @@ int main() {
     cout<<"introduce el objetivo: ";
         cin>>target;
 
-    G.print(source, target);
+    G.printDFS(source, target);
 
+    G.printBFS(source);
 
     return 0;
 }

@@ -7,7 +7,9 @@
 
 #include <iostream>
 #include <list>
+#include "queue.h"
 #include "stack.h"
+
 
 using namespace std;
 
@@ -21,7 +23,8 @@ private:
 public:
     grafo(int tamano = 2);
     void agregarArista(int vertice1, int vertice2);
-    void print(int source, int target);
+    void printDFS(int source, int target);
+    void printBFS(int start);
     bool conexion(int, int);
 };
 
@@ -69,7 +72,7 @@ bool grafo::conexion(int x, int y) {
     return (arreglo[x-1][y-1]==1);
 }
 
-void grafo::print(int source, int target) {
+void grafo::printDFS(int source, int target) {
 
     stack s;
 
@@ -105,4 +108,35 @@ void grafo::print(int source, int target) {
         }
     }*/
 }
+
+void grafo::printBFS(int start) {
+    queue q;
+
+    bool *encontrados = new bool[numeroVertices+1];
+
+    for(int i=0; i<=numeroVertices; i++){
+        encontrados[i] = false;
+    }
+
+    q.enqueue(start);
+    encontrados[start]=true;
+
+    cout<<"busqueda en profundidad empezando desde el vertice: "<< start <<endl;
+
+    while(!q.isEmpty()){
+        int verticeActual = q.dequeue();
+
+        cout<< verticeActual<<" ";
+
+        for(int verticeConectado = 1; verticeConectado <= numeroVertices; ++verticeConectado){
+            if(conexion(verticeActual, verticeConectado) && !encontrados[verticeConectado]){
+                q.enqueue(verticeConectado);
+                encontrados[verticeConectado] = true;
+            }
+        }
+
+    }
+    delete []encontrados;
+}
+
 #endif //GRAPHSEARCHALGORITHMS_EDD2_GRAFO_H
